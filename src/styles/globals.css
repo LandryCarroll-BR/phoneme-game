@@ -10,18 +10,3 @@
     @apply h-full overflow-hidden antialiased;
   }
 }
-
-/* -------- scrollbars inside body -------- */
-body *::-webkit-scrollbar {
-  @apply w-[8px];
-}
-
-body *::-webkit-scrollbar-thumb {
-  @apply border-spacing-5
-    rounded-full;
-  background: #d4b2ae;
-}
-
-.overlay {
-  overflow: overlay;
-}

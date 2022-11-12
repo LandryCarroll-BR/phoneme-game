@@ -17,6 +17,11 @@ export const config = {
         title: "Scene",
         fields: [
           defineField({
+            name: "title",
+            title: "Title",
+            type: "string",
+          }),
+          defineField({
             name: "picture",
             title: "Picture",
             type: "image",
@@ -25,10 +30,23 @@ export const config = {
             },
           }),
           defineField({
-            name: "phoneme",
-            title: "Phoneme",
-            type: "string",
+            name: "phonemes",
+            title: "Phoneme Boxes",
+            type: "array",
+            of: [{ type: "reference", to: { type: "phoneme" } }],
           }),
+        ],
+      }),
+      defineType({
+        name: "phoneme",
+        title: "Phoneme",
+        type: "document",
+        fields: [
+          {
+            name: "letters",
+            title: "Letters",
+            type: "string",
+          },
         ],
       }),
     ],
