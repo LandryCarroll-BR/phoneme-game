@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-surface-dark-900 overflow-x-hidden h-full;
+  }
+  body {
+    @apply h-full overflow-hidden antialiased;
+  }
+}
+
+/* -------- scrollbars inside body -------- */
+body *::-webkit-scrollbar {
+  @apply w-[8px];
+}
+
+body *::-webkit-scrollbar-thumb {
+  @apply border-spacing-5
+    rounded-full;
+  background: #d4b2ae;
+}
+
+.overlay {
+  overflow: overlay;
+}
