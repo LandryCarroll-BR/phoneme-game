@@ -10,10 +10,12 @@ import { TopNav } from "@/components/ui/TopNav";
 import Head from "next/head";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { groq } from "next-sanity";
+import sanity from "../lib/sanityClient";
+import SanityImage from "@/components/SanityImageLoader";
 
-export default function Home({ scenes }) {
+export default function Home({ scenes, testScenes }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  console.log(scenes);
 
   // const [activeLetter, setActiveLetter] = useState(scenes);
   // const [clickedLetter, setClickedLetter] = useState("");
@@ -100,6 +102,27 @@ export default function Home({ scenes }) {
 }
 
 export async function getServerSideProps() {
+  const query = groq`*[_type == "scene"] {
+      _id,
+      title,
+      picture,
+      "pictureURL": picture.asset->url,
+      phonemes[]->
+    }`;
+
+  const scenes = await sanity.fetch(query).then((scenes) => {
+    try {
+      return scenes.map((scene) => {
+        return {
+          picture: scene.pictureURL,
+          phonemes: scene.phonemes.map((phoneme) => phoneme.letters),
+        };
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
   const testData = [
     {
       picture:
@@ -117,9 +140,10 @@ export async function getServerSideProps() {
     //   word: "pig",
     // },
   ];
+  console.log(scenes);
   return {
     props: {
-      scenes: testData,
+      scenes,
     }, // will be passed to the page component as props
   };
 }
