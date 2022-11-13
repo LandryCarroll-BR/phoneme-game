@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Footer } from "./ui/Footer";
 import { PhonemeBox } from "./ui/PhonemeBox";
 import { LetterTile } from "./ui/LetterTile";
@@ -10,44 +10,58 @@ import { TopNav } from "./ui/TopNav";
 import { getRandomPhonemes, shuffle } from "@/services/random";
 import { Button } from "./ui/Button";
 
-export default function Scene({ scene, show, goToNextScene }) {
+export default function Scene({
+  scene,
+  show,
+  goToNextScene,
+  incrementWrongAnswers,
+  incrementCorrectAnswers,
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
   const { picture, phonemes } = scene;
+
   const [activePhoneme, setActivePhoneme] = useState(phonemes[activeIndex]);
   const [tiles, setTiles] = useState([]);
 
-  const generateTiles = (phonemes, currentPhoneme) => {
-    const randomPhonemes = getRandomPhonemes(phonemes.length - 1);
-    const shuffledPhonemes = shuffle([currentPhoneme, ...randomPhonemes]);
-    return shuffledPhonemes?.map((phoneme, index) => {
-      return { phoneme, status: "primary" };
+  const generateTiles = useCallback(() => {
+    const list = activePhoneme?.choices?.replace(/\s/g, "").split(",");
+
+    const shuffledList = shuffle(list);
+
+    const tiles = shuffledList?.map((choice) => {
+      return { choice, status: "primary" };
     });
-  };
+
+    return tiles;
+  });
 
   useEffect(() => {
-    const tiles = generateTiles(phonemes, activePhoneme);
+    const tiles = generateTiles();
     setTiles(tiles);
   }, [phonemes, activePhoneme]);
 
   const onSuccess = () => {
     setActiveIndex(activeIndex + 1);
     setActivePhoneme(phonemes[activeIndex + 1]);
+    incrementCorrectAnswers();
     setTiles(generateTiles(phonemes, phonemes[activeIndex + 1]));
   };
 
   const onFailure = (currentIndex) => {
     const updatedTiles = tiles.map((tile, index) => {
       if (index === currentIndex) {
-        return { phoneme: tiles[currentIndex].phoneme, status: "danger" };
+        return { choice: tiles[currentIndex].choice, status: "danger" };
       } else {
         return tile;
       }
     });
+    incrementWrongAnswers();
     setTiles(updatedTiles);
   };
 
   const checkPhonemes = (clickedPhoneme, index) => {
-    if (activePhoneme === clickedPhoneme) {
+    console.log(clickedPhoneme, activePhoneme.phoneme);
+    if (activePhoneme.phoneme === clickedPhoneme) {
       onSuccess();
     } else {
       onFailure(index);
@@ -69,7 +83,10 @@ export default function Scene({ scene, show, goToNextScene }) {
       <main className="flex w-full h-full justify-between items-center flex-col overflow-y-auto overlay">
         <div className="flex-1 flex items-center justify-center flex-col">
           <div className="min-h-[380px]">
-            <Picture src={picture} word={phonemes.join("")} />
+            <Picture
+              src={picture}
+              word={phonemes.map((phoneme) => phoneme.phoneme).join("")}
+            />
             <LetterBoxContainer className={"-translate-y-12"}>
               {phonemes.map((phoneme, index) => {
                 return (
@@ -83,7 +100,7 @@ export default function Scene({ scene, show, goToNextScene }) {
                     }
                     key={index}>
                     {index < activeIndex
-                      ? phoneme
+                      ? phoneme.phoneme
                       : index === activeIndex
                       ? "?"
                       : ""}
@@ -103,11 +120,11 @@ export default function Scene({ scene, show, goToNextScene }) {
                 return (
                   <LetterTile
                     intent={item.status}
-                    key={item + index}
+                    key={item.choice + index}
                     onClick={() => {
-                      checkPhonemes(item.phoneme, index);
+                      checkPhonemes(item.choice, index);
                     }}>
-                    {item.phoneme}
+                    {item.choice}
                   </LetterTile>
                 );
               })

@@ -30,7 +30,7 @@ export function SoundIcon({
 
   useEffect(() => {
     speak();
-  }, []);
+  }, [word]);
 
   return (
     <button

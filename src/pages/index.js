@@ -10,19 +10,54 @@ const query = groq`*[_type == "scene"] {
       title,
       picture,
       "pictureURL": picture.asset->url,
-      phonemes[]->
+      phonemes[]->,
     }`;
 
-export default function Home({ scenes, testScenes }) {
+export default function Home({ scenes }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [numberOfWrongAnswers, setNumberOfWrongAnswers] = useState(0);
+  const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(0);
 
   const renderWinScreen = () => {
     return (
-      <div className="flex w-screen h-screen items-center justify-center flex-col">
-        <h2 className="text-2xl text-white font-bold mb-10">
+      <div className="flex w-screen h-screen items-center justify-center flex-col gap-8">
+        <h2 className="text-2xl text-white font-bold">
           Great Job! You completed all of the pictures!
         </h2>
-        <Button onClick={() => setActiveIndex(0)}>Start Over</Button>
+        <div className="flex flex-col bg-surface-dark-700 rounded-lg shadow-md w-full p-3 px-4 max-w-xs">
+          <div className="w-full flex items-center justify-between ">
+            <span className="text-sm font-bold text-surface-dark-100">
+              Number correctly answered:
+            </span>
+            <span className="font-bold text-lg text-white">
+              {numberOfCorrectAnswers}
+            </span>
+          </div>
+          <div className="w-full flex items-center justify-between">
+            <span className="text-sm font-bold text-surface-dark-100">
+              Number incorrectly answered:
+            </span>
+            <span className="font-bold text-lg text-white">
+              {numberOfWrongAnswers}
+            </span>
+          </div>
+        </div>
+        <div className="w-full flex flex-col items-center justify-between">
+          <span className="text-lg font-bold text-surface-dark-100">
+            Your total score:
+          </span>
+          <span className="font-bold text-xl text-white">
+            {numberOfCorrectAnswers * 40 + " points"}
+          </span>
+        </div>
+        <Button
+          onClick={() => {
+            setActiveIndex(0);
+            setNumberOfCorrectAnswers(0);
+            setNumberOfWrongAnswers(0);
+          }}>
+          Start Over
+        </Button>
       </div>
     );
   };
@@ -37,6 +72,12 @@ export default function Home({ scenes, testScenes }) {
                 scene={scene}
                 show={index === activeIndex}
                 goToNextScene={() => setActiveIndex(activeIndex + 1)}
+                incrementWrongAnswers={() =>
+                  setNumberOfWrongAnswers(numberOfWrongAnswers + 1)
+                }
+                incrementCorrectAnswers={() =>
+                  setNumberOfCorrectAnswers(numberOfCorrectAnswers + 1)
+                }
               />
             );
           })
@@ -93,7 +134,9 @@ export async function getServerSideProps({ params, preview = false }) {
         return scenes.map((scene) => {
           return {
             picture: scene.pictureURL,
-            phonemes: scene.phonemes.map((phoneme) => phoneme.letters),
+            phonemes: scene.phonemes.map((phoneme) => {
+              return { phoneme: phoneme.letters, choices: phoneme.choices };
+            }),
           };
         });
       } catch (error) {

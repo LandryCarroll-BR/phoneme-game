@@ -42,8 +42,18 @@ export const config = {
         type: "document",
         fields: [
           {
+            name: "title",
+            title: "Title",
+            type: "string",
+          },
+          {
             name: "letters",
             title: "Letters",
+            type: "string",
+          },
+          {
+            name: "choices",
+            title: "Other Choices (separate by comma)",
             type: "string",
           },
         ],
