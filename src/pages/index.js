@@ -86,7 +86,7 @@ export default function Home({ scenes, testScenes }) {
 //   };
 // }
 
-export async function getStaticProps({ params, preview = false }) {
+export async function getServerSideProps({ params, preview = false }) {
   const scenes = await getClient(preview)
     .fetch(query)
     .then((scenes) => {

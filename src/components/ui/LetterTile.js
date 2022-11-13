@@ -1,7 +1,7 @@
 import { cva } from "cva";
 
 const letterTileStyles = cva(
-  "inline-flex items-center justify-center rounded-lg aspect-square text-xl font-bold shadow-md  transition-all duration-200  h-screen max-h-[64px] capitalize",
+  "inline-flex items-center justify-center rounded-lg aspect-square text-xl font-bold shadow-md  transition-all duration-200  h-screen max-h-[64px]  uppercase",
   {
     variants: {
       intent: {

@@ -1,3 +1,4 @@
+import { urlFor } from "@/lib/sanity";
 import { cva } from "cva";
 import Image from "next/image";
 import { SoundIcon } from "./SoundIcon";
@@ -29,7 +30,7 @@ export function Picture({ intent, children, src, word, ...props }) {
       <div className={PictureStyles({ intent })} {...props}>
         <Image
           className="object-cover object-center"
-          src={src}
+          src={urlFor(src).url()}
           alt="picture"
           fill
         />
