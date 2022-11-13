@@ -1,7 +1,7 @@
 import { cva } from "cva";
 
 const PhonemeBoxStyles = cva(
-  "inline-flex items-center justify-center rounded-lg border border-transparent aspect-square text-xl font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200  h-screen max-h-[72px] capitalize",
+  "inline-flex items-center justify-center rounded-lg border border-transparent aspect-square text-xl font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200  h-screen max-h-[72px] lowercase",
   {
     variants: {
       intent: {
