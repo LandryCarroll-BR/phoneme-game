@@ -102,8 +102,6 @@ export async function getStaticProps({ params, preview = false }) {
       }
     });
 
-  console.log(scenes);
-
   return {
     props: {
       scenes,
