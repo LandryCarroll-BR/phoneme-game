@@ -1,8 +1,7 @@
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import ConfettiRain from "./ConfettiRain";
 import { Footer } from "./ui/Footer";
-import { LetterBox, PhonemeBox } from "./ui/PhonemeBox";
+import { PhonemeBox } from "./ui/PhonemeBox";
 import { LetterTile } from "./ui/LetterTile";
 import { LetterTileContainer } from "./ui/LetterTileContainer";
 import { LetterBoxContainer } from "./ui/LettterBoxContainer";
@@ -54,9 +53,6 @@ export default function Scene({ scene, show, goToNextScene }) {
     } else {
       onFailure(index);
     }
-    // if (index === phonemes.length) {
-    //   setShowNextSceneButton(true);
-    // }
   };
 
   if (!show) return <div></div>;
@@ -120,9 +116,7 @@ export default function Scene({ scene, show, goToNextScene }) {
               <Button onClick={goToNextScene}>Next Picture</Button>
             )}
           </LetterTileContainer>
-          {/* <button onClick={incrementIndex}>index++</button> */}
         </div>
-        <ConfettiRain show={activeIndex === phonemes.length} />
       </main>
 
       <Footer />

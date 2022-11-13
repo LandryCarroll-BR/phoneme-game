@@ -1,13 +1,5 @@
 import ConfettiRain from "@/components/ConfettiRain";
 import Scene from "@/components/Scene";
-import { Footer } from "@/components/ui/Footer";
-import { LetterBox } from "@/components/ui/PhonemeBox";
-import { LetterTile } from "@/components/ui/LetterTile";
-import { LetterTileContainer } from "@/components/ui/LetterTileContainer";
-import { LetterBoxContainer } from "@/components/ui/LettterBoxContainer";
-import { Picture } from "@/components/ui/Picture";
-import { TopNav } from "@/components/ui/TopNav";
-import Head from "next/head";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { groq } from "next-sanity";
@@ -15,60 +7,6 @@ import sanity from "../lib/sanityClient";
 
 export default function Home({ scenes, testScenes }) {
   const [activeIndex, setActiveIndex] = useState(0);
-
-  // const [activeLetter, setActiveLetter] = useState(scenes);
-  // const [clickedLetter, setClickedLetter] = useState("");
-
-  // const [letterBoxes, setLetterBoxes] = useState(
-  //   word.split("").map((letter, index) => {
-  //     return { letter, status: index === 0 ? "active" : "primary" };
-  //   })
-  // );
-
-  // const getRandomLetterTiles = (length) => {
-  //   let result = "";
-  //   let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  //   let charactersLength = characters.length;
-  //   for (var i = 0; i < length; i++) {
-  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  //   }
-  //   const activeLetter = letterBoxes.filter(
-  //     (letterBox) => letterBox.status === "active"
-  //   )[0].letter;
-  //   return (result += activeLetter).split("");
-  // };
-
-  // const [letterTiles, setLetterTiles] = useState(
-  //   shuffle(getRandomLetterTiles(2))
-  // );
-
-  // const incrementIndex = () => {
-  //   if (index === scenes.length) {
-  //     setIndex(0);
-  //   } else {
-  //     setIndex(index + 1);
-  //   }
-  // };
-
-  // function shuffle(array) {
-  //   let currentIndex = array.length,
-  //     randomIndex;
-
-  //   // While there remain elements to shuffle.
-  //   while (currentIndex != 0) {
-  //     // Pick a remaining element.
-  //     randomIndex = Math.floor(Math.random() * currentIndex);
-  //     currentIndex--;
-
-  //     // And swap it with the current element.
-  //     [array[currentIndex], array[randomIndex]] = [
-  //       array[randomIndex],
-  //       array[currentIndex],
-  //     ];
-  //   }
-
-  //   return array;
-  // }
 
   const renderWinScreen = () => {
     return (
@@ -96,6 +34,7 @@ export default function Home({ scenes, testScenes }) {
             );
           })
         : renderWinScreen()}
+      <ConfettiRain show={activeIndex === scenes.length} />
     </div>
   );
 }
