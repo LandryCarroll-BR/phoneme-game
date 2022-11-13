@@ -14,6 +14,7 @@ const query = groq`*[_type == "scene"] {
     }`;
 
 export default function Home({ scenes }) {
+  console.log(scenes);
   const [activeIndex, setActiveIndex] = useState(0);
   const [numberOfWrongAnswers, setNumberOfWrongAnswers] = useState(0);
   const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(0);
@@ -132,10 +133,14 @@ export async function getServerSideProps({ params, preview = false }) {
     .then((scenes) => {
       try {
         return scenes.map((scene) => {
+          if (scene.phonemes.some((phoneme) => phoneme === null)) return;
           return {
             picture: scene.pictureURL,
             phonemes: scene.phonemes.map((phoneme) => {
-              return { phoneme: phoneme.letters, choices: phoneme.choices };
+              return {
+                phoneme: phoneme?.letters ?? "",
+                choices: phoneme?.choices,
+              };
             }),
           };
         });
