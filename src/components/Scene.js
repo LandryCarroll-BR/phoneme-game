@@ -15,7 +15,6 @@ export default function Scene({ scene, show, goToNextScene }) {
   const { picture, phonemes } = scene;
   const [activePhoneme, setActivePhoneme] = useState(phonemes[activeIndex]);
   const [tiles, setTiles] = useState([]);
-  const [showNextSceneButton, setShowNextSceneButton] = useState(false);
 
   const generateTiles = (phonemes, currentPhoneme) => {
     const randomPhonemes = getRandomPhonemes(phonemes.length - 1);
@@ -28,7 +27,7 @@ export default function Scene({ scene, show, goToNextScene }) {
   useEffect(() => {
     const tiles = generateTiles(phonemes, activePhoneme);
     setTiles(tiles);
-  }, []);
+  }, [phonemes, activePhoneme]);
 
   const onSuccess = () => {
     setActiveIndex(activeIndex + 1);
