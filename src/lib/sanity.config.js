@@ -1,6 +1,5 @@
 import { defineField, defineType } from "sanity";
 import { deskTool } from "sanity/desk";
-import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 
 export const config = {
   projectId: "gjiqis7d",
@@ -8,7 +7,7 @@ export const config = {
   apiVersion: "2021-10-21",
   title: "phoneme-game",
   basePath: "/admin",
-  plugins: [deskTool(), unsplashImageAsset()],
+  plugins: [deskTool()],
   schema: {
     types: [
       defineType({
