@@ -31,7 +31,6 @@ export default function Home({ scenes, testScenes }) {
     <div>
       {scenes?.length !== activeIndex
         ? scenes?.map((scene, index) => {
-            console.log(index === activeIndex);
             return (
               <Scene
                 key={index}
