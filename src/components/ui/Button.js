@@ -1,6 +1,4 @@
 import { cva } from "cva";
-import Image from "next/Image";
-import { SoundIcon } from "./SoundIcon";
 
 const PictureStyles = cva(
   "inline-flex items-center rounded-md shadow-md border border-transparent font-bold",

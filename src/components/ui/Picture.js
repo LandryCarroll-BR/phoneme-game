@@ -1,5 +1,5 @@
 import { cva } from "cva";
-import Image from "next/Image";
+import Image from "next/image";
 import { SoundIcon } from "./SoundIcon";
 
 const PictureStyles = cva(
