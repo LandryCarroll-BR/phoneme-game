@@ -12,7 +12,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { groq } from "next-sanity";
 import sanity from "../lib/sanityClient";
-import SanityImage from "@/components/SanityImageLoader";
 
 export default function Home({ scenes, testScenes }) {
   const [activeIndex, setActiveIndex] = useState(0);
